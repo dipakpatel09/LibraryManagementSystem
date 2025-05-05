@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.library.BookDataUtil.getBookModelTestData;
+import static com.example.library.BookDataUtil.getBookTestData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +38,7 @@ class BookServiceTest {
     @Test
     void testGetBook_ShouldReturnBookDto_WhenBookExists() {
         BookModel bookModel = getBookModelTestData();
-        Books bookDto = new Books();
+        Books bookDto = getBookTestData();
         when(bookRepository.findById(1L)).thenReturn(Optional.of(bookModel));
         when(dataMapper.toDto(bookModel)).thenReturn(bookDto);
 
@@ -55,7 +56,7 @@ class BookServiceTest {
     @Test
     void testGetAllBooks_ShouldReturnBooksList() {
         BookModel bookModel = getBookModelTestData();
-        Books bookDto = new Books();
+        Books bookDto = getBookTestData();
         List<BookModel> bookList = List.of(bookModel);
         when(bookRepository.findAll()).thenReturn(bookList);
         when(dataMapper.toDto(bookModel)).thenReturn(bookDto);
@@ -69,7 +70,7 @@ class BookServiceTest {
     @Test
     void testCreateBook_ShouldReturnCreatedBookDto() {
         BookModel bookModel = getBookModelTestData();
-        Books bookDto = new Books();
+        Books bookDto = getBookTestData();
         when(dataMapper.toEntity(any(Books.class))).thenReturn(bookModel);
         when(bookRepository.save(any(BookModel.class))).thenReturn(bookModel);
         when(dataMapper.toDto(bookModel)).thenReturn(bookDto);
@@ -81,7 +82,7 @@ class BookServiceTest {
 
     @Test
     void testUpdateBook_ShouldThrowException_WhenBookNotFound() {
-        Books bookDto = new Books();
+        Books bookDto = getBookTestData();
         when(bookRepository.findById(1L)).thenReturn(Optional.empty());
         Assertions.assertThrows(CustomizedGenericError.class, () -> bookService.updateBook(1L, bookDto));
     }
