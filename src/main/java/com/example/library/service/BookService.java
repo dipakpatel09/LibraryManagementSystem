@@ -60,7 +60,6 @@ public class BookService {
         if (bookId.isEmpty()) {
             throw new CustomizedGenericError("Book not found");
         }
-
         bookRepository.deleteById(id);
     }
 }
